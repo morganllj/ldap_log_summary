@@ -9,36 +9,37 @@ sub print_usage();
 
 $,=$\="\n";
 
-#my $argv_neg2 = $ARGV[-2];
-#my $argv_neg1 = $ARGV[-1];
-my $argv_count = $#ARGV;
-my @arg = @ARGV;
+# my $argv_neg2 = $ARGV[-2];
+# my $argv_neg1 = $ARGV[-1];
+# my $argv_count = $#ARGV;
+# my @arg = @ARGV;
 
 my $found=0;
 my $in;
 my $value;
 
 my %opts;
-getopt('is', \%opts);
+getopt('f:', \%opts);
 
-if ($opts{s}) {
-    print "-s specified\n";
-}
+# if ($opts{s}) {
+#     print "-s specified\n";
+# }
 
-print "ARGS: ", @arg, "\n";
+# print "ARGS: ", @arg, "\n";
 
 
-if ($argv_count > 0 && ($argv_neg2 !~ /^\-/ || exists $opts{s})) {
-    open ($in, $argv_neg1) || die "can't open $argv_neg1";
-    $value = $argv_neg2 if ($argv_neg2 !~ /^\-/);
-} else {
-    $in = "STDIN";
-    $value = $argv_neg1;
-}
+# if ($argv_count > 0 && ($argv_neg2 !~ /^\-/ || exists $opts{s})) {
+#     open ($in, $argv_neg1) || die "can't open $argv_neg1";
+#     $value = $argv_neg2 if ($argv_neg2 !~ /^\-/);
+# } else {
+#     $in = "STDIN";
+#     $value = $argv_neg1;
+# }
 
-print "value: $value\n";
+# print "value: $value\n";
 
-exit;
+#open ($in, $argv_neg1) || die "can't open $argv_neg1";
+open ($in, $opts{f}) || die "can't open $opts{f}";
 
 my %conns;
 my %conns_summary;
@@ -86,10 +87,10 @@ while (<$in>) {
 	    }
 	}
 
-	if (!exists $opts{s} || (exists $opts{s} && defined $value)) {
-	    # the idea is we don't want to print if we're generating a summary of all log entries
-	    print "here:",  @{$conns{$conn}};
-	}
+	# if (!exists $opts{s} || (exists $opts{s} && defined $value)) {
+	#     # the idea is we don't want to print if we're generating a summary of all log entries
+	#     print "here:",  @{$conns{$conn}};
+	# }
 
 	delete $conns{$conn}
     }
@@ -98,7 +99,7 @@ while (<$in>) {
 
 
 
-if (exists $opts{s}) {
+#if (exists $opts{s}) {
     print "\n***Summary:\n";
     $,="";
 
@@ -125,7 +126,7 @@ if (exists $opts{s}) {
 	}
     }
 
-}
+#}
 
 
 
